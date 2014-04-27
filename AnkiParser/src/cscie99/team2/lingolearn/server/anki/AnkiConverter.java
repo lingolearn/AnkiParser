@@ -39,6 +39,14 @@ public class AnkiConverter {
 		cardWriter = CardWriterFactory.getCardWriter();
 	}
 	
+	/**
+	 * Write the Anki Cards and Decks to the output file that was
+	 * specified during initialization.  Each Card will be written
+	 * as a line to the output file based on the CardWriter returned
+	 * by the CardWriterFactory
+	 * 
+	 * @return true if writing succeeds, false otherwise.
+	 */
 	public boolean writeOutputFile(){
 		try{
 			writer = new BufferedWriter( new FileWriter(outputFilename));
@@ -59,6 +67,7 @@ public class AnkiConverter {
 			writeSucceeded = true;
 			return true;
 		}catch( IOException ioe ){
+			// record error messages 
 			String errorMessage = "An error occurred writing to the output file: " 
 					+ this.outputFilename;
 			
@@ -68,6 +77,12 @@ public class AnkiConverter {
 		}
 	}
 	
+	/**
+	 * Parse the Anki File specified during initialization.  If
+	 * the anki File was not successfully parsed, an AnkiException will
+	 * be caught.
+	 * @return true if the Anki File was successfully parsed, false otherwise.
+	 */
 	public boolean parseAnkiFile(){
 		try{
 			ankiFile = new AnkiFile(ankiFilename);
@@ -91,12 +106,28 @@ public class AnkiConverter {
 		return this.statusMessages.iterator();
 	}
 	
+	public String getAnkiFilename() {
+		return ankiFilename;
+	}
+
+	public String getOutputFilename() {
+		return outputFilename;
+	}
+
+	public void setOutputFilename(String outputFilename) {
+		this.outputFilename = outputFilename;
+	}
+	
 	private String generateOutputFilename(){
 		String newOutFilename = this.ankiFilename + "_output.csv";
 		
 		return newOutFilename;
 	}
 	
+	/*
+	 * Generate a success message based on the number of decks and
+	 * Cards Parsed.
+	 */
 	private String getParseSuccessMessage(){
 		String message = "The Anki file was successfully parsed.";
 		message += "\nTotal Decks Parsed: " + ankiFile.getTotalDeckModels();

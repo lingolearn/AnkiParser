@@ -178,10 +178,13 @@ public class AnkiFile {
 		
 	}
 	
+	/*
+	 * Generate a name for the next parsed deck.
+	 * These names are based on the original Anki filename.
+	 */
 	private String getNextDeckName(){
 		File ankiFile = new File(this.ankiFilename);
 		String filename = ankiFile.getName();
-		//String fileTokens[]
 		String fileTokens[] = filename.split("\\.(?=[^\\.]+$)");
 		if( fileTokens.length < 1 )
 			return filename;
